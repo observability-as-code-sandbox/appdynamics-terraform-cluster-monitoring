@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appd-dotnet-deployment-auto
+  labels:
+    appName: DotNet-deployment-label
+    lang: dotnet
+spec:
+  selector:
+    matchLabels:
+      app: appd-dotnet-deployment-auto
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        appName: DotNet-template-label
+        app: appd-dotnet-deployment-auto
+        tier: foo-service
+        nodeName: foo 
+    spec:
+      serviceAccountName: appd-account
+      containers:
+      - image: mcr.microsoft.com/dotnet/core/samples:aspnetapp # application image
+        imagePullPolicy: "IfNotPresent"
+        name: dotnet-app-deployment-auto
+        ports:
+        - name: http
+          containerPort: 80

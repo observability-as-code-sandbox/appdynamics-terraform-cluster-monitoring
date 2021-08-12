@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appd-java-deployment-auto
+  labels:
+    appName: Java-deployment-label
+    lang: java
+spec:
+  selector:
+    matchLabels:
+      app: appd-java-deployment-auto
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        appName: Java-template-label
+        app: appd-java-deployment-auto
+        tier: backend
+    spec:
+      serviceAccountName: appd-account
+      containers:
+      - image: sashaz/java-services:v6 # application image
+        imagePullPolicy: "IfNotPresent"
+        name: java-app-deployment-auto
+        command: 
+           - /bin/sh
+           - -c
+           - java -jar /java-services.jar
+        ports:
+        - name: http
+          containerPort: 8080
+
