@@ -2,14 +2,14 @@
 
 This Lab is containing an example on how to use Helm charts to deploy Cluster Agent with Terraform.
 
-It is based on the HashiCorp [Provision an EKS Cluster learn guide](https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster) tutorial containing Terraform configuration files to provision AWS EKS cluster, that then we connect to and deploy Cluster Agent resources using Terraform Helm provider.
+It is based on the HashiCorp [provision an EKS Cluster learn guide](https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster) tutorial containing Terraform configuration files to provision AWS EKS cluster, that then we connect to and deploy Cluster Agent resources using Terraform Helm provider.
 
-> IMPORTANT: Resources created not part of the Free tier. Always destroy created resources when you complete working with the lab, and do not forget to set Billing alerts on your account. Approximate charges: $0.0464/hr, but can accumulate if left unattended.
+> IMPORTANT: Resources created are not part of the Free tier. Always destroy created resources when you complete working with the lab, and do not forget to set Billing alerts on your account. Approximate charges: $0.0464/hr, but can accumulate if left unattended.
 
 
 ### Prerequisites
 
-1) Configure AWS CLI to connect to your AWS environment.
+1) Configure [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) to connect to your cloud environment. Recommended is to use [named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) when authenticating against AWS.
 
 2) Set Terraform variables
     - appdynamics.auto.tfvars
@@ -25,8 +25,14 @@ Project consist of two modules:
 
 > Modules can be used together or independently, and in the case of the latter, cluster connection details can be provided as `.tfvars` file and only `cluster-agent` module targeted for applying.
 
-To create all of the resources run terraform plan and apply:
+Initiate terraform directory:
 ```
+terraform init
+```
+
+Create all of the resources run terraform plan and apply:
+```
+terraform plan
 terraform apply
 ```
 
@@ -41,6 +47,7 @@ When updating Helm values, not to re-create the whole cluster, only a `cluster_a
 terraform destroy -target=module.cluster_agent.helm_release.appdynamics_cluster_agent
 ```
 
+
 #### Connect to the Cluster
 
 Connecting kubectl to  the newly created cluster, so created pods and other resources can be accessed and managed:
@@ -48,6 +55,9 @@ Connecting kubectl to  the newly created cluster, so created pods and other reso
 ```
 aws eks --region $(terraform output -raw cluster_region) update-kubeconfig --name $(terraform output -raw cluster_name)
 ```
+
+> Note: To run this command, you must have permission to use the eks:DescribeCluster 
+
 
 #### Metric Server
 
@@ -80,6 +90,7 @@ Check if cluster agent pods are running, and access cluster agent logs:
 ```
 kubectl get po -n appdynamics
 kubectl logs <cluster-agent-pod> -n appdynamics -f
+kubectl logs <cluster-agent-pod> -n appdynamics | grep Instrumentation
 ```
 
 ###  Destroying Resources
