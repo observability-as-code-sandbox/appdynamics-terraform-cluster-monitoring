@@ -1,10 +1,11 @@
 # Using Terraform Provision AWS EKS Cluster (optional) & Deploy Cluster Agent Monitoring
 
-This is a Lab containing an example on how to use Helm charts to deploy Cluster Agent with Terraform.
+This Lab is containing an example on how to use Helm charts to deploy Cluster Agent with Terraform.
 
 It is based on the HashiCorp [Provision an EKS Cluster learn guide](https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster) tutorial containing Terraform configuration files to provision AWS EKS cluster, that then we connect to and deploy Cluster Agent resources using Terraform Helm provider.
 
-> IMPORTANT: Resources created not part of the Free tier. Always destroy create resources when you complete working with the lab, and do not forget to set Billing alerts on your account. Approximate charges: $0.0464/hr, but can accumulate if left unattended.
+> IMPORTANT: Resources created not part of the Free tier. Always destroy created resources when you complete working with the lab, and do not forget to set Billing alerts on your account. Approximate charges: $0.0464/hr, but can accumulate if left unattended.
+
 
 ### Prerequisites
 
@@ -14,6 +15,7 @@ It is based on the HashiCorp [Provision an EKS Cluster learn guide](https://lear
     - appdynamics.auto.tfvars
     - cluster_agent.auto.tfvars
     - secrets.auto.tfvars
+
 
 ### Provision resources
 
@@ -29,6 +31,7 @@ terraform apply
 ```
 
 > Note: It takes about 10-15 min for resources to be deployed
+
 
 #### Cluster Agent Updates
 
@@ -58,10 +61,12 @@ kubectl get deployment metrics-server -n kube-system
 
 > Note: Can be configured as part of the Helm template
 
+
 #### Example Applications
 
 Directory `./application-examples` contains example deployments to test auto-instrumentation. 
-Refer to the `build-app.sh` and `clean-app.sh`
+Refer to the `build-app.sh` and `clean-app.sh` scripts.
+
 
 ### Troubleshooting
 
@@ -84,7 +89,4 @@ Do not forget to clean-up the AWS resources when you are done:
 terraform destroy -auto-approve
 ```
 
-#### Additional links - Zendesk
-https://appdynamics.zendesk.com/agent/tickets/252463
-https://appdynamics.zendesk.com/agent/tickets/273864
 
