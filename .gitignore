@@ -36,3 +36,5 @@ terraform.rc
 # local files
 .local.*
 .DS_Store
+*.terraform.lock.hcl
+kubeconfig_*

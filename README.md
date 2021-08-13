@@ -1,14 +1,18 @@
-# Tutorial source: Learn Terraform - Provision an EKS Cluster
+# Provision an EKS Cluster & Deploy Cluster Agent
 
-This is a Lab containing an example on how to use helm charts to deploy Cluster agent with terraform.
+This is a Lab containing an example on how to use helm charts to deploy Cluster agent with Terraform.
 It is base odn the HashiCorp tutorial used to create AWS EKS cluster, that we connect to and deploy Cluster agent resources.
 
 > Note: Lab still contains manual steps and is work in progress.
 
-## Steps 
-
 ### Prerequisites
-Configure AWS CLI to connect to your AWS environment.
+
+1) Configure AWS CLI to connect to your AWS environment.
+
+2) Set Terraform variables
+    - appdynamics.auto.tfvars
+    - cluster_agent.auto.tfvars
+    - secrets.auto.tfvars
 
 #### 1 Provision AWS EKS Cluster
 
@@ -44,3 +48,8 @@ tf destroy
 terraform / helm > manual
 https://appdynamics.zendesk.com/agent/tickets/252463
 https://appdynamics.zendesk.com/agent/tickets/273864
+
+
+### HashiCorp tutorial: Learn Terrafom Provision EKS Cluster
+
+Latest version can be cloned from: https://github.com/hashicorp/learn-terraform-provision-eks-cluster

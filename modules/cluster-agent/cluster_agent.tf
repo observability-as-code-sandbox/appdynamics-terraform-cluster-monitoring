@@ -1,14 +1,3 @@
-# provider "helm" {
-#   kubernetes {
-#     host                   = var.cluster_endpoint #data.aws_eks_cluster.cluster.endpoint
-#     cluster_ca_certificate = base64decode(var.cluster_certificate) # base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
-#     exec {
-#       api_version = "client.authentication.k8s.io/v1alpha1"
-#       args        = ["eks", "get-token", "--cluster-name", var.cluster_name] #data.aws_eks_cluster.cluster.name]
-#       command     = "aws"
-#     }
-#   }
-# }
 
 provider "helm" {
   alias = "demo_cluster"
@@ -25,7 +14,7 @@ provider "helm" {
 
 resource "helm_release" "appdynamics_cluster_agent" {
   
-  provider          = helm.my_cluster
+  provider          = helm.demo_cluster
   name              = "appd-cluster-agent"
   repository        = "https://ciscodevnet.github.io/appdynamics-charts"
   chart             = "cluster-agent"

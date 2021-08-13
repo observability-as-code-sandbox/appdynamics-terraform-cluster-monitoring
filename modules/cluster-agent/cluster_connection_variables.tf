@@ -28,5 +28,9 @@ variable "cluster_name" {
 variable "cluster_region" {
   type        = string
   description = "Region where cluster is running (needed as an argument for connection)"
-  default     = "eu-west-2"
+
+  validation {
+    condition     = length(var.cluster_region) > 0
+    error_message = "The cluster_region value must NOT be empty or null."
+  }
 }
