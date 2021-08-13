@@ -1,9 +1,10 @@
-# Provision an EKS Cluster & Deploy Cluster Agent
+# Using Terraform Provision AWS EKS Cluster (optional) & Deploy Cluster Agent Monitoring
 
-This is a Lab containing an example on how to use helm charts to deploy Cluster agent with Terraform.
-It is base odn the HashiCorp tutorial used to create AWS EKS cluster, that we connect to and deploy Cluster agent resources.
+This is a Lab containing an example on how to use Helm charts to deploy Cluster Agent with Terraform.
 
-> Note: Lab still contains manual steps and is work in progress.
+It is based on the HashiCorp [Provision an EKS Cluster learn guide](https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster) tutorial containing Terraform configuration files to provision AWS EKS cluster, that then we connect to and deploy Cluster Agent resources using Terraform Helm provider.
+
+> IMPORTANT: Resources created not part of the Free tier. Always destroy create resources when you complete working with the lab, and do not forget to set Billing alerts on your account. Approximate charges: $0.0464/hr, but can accumulate if left unattended.
 
 ### Prerequisites
 
@@ -14,42 +15,76 @@ It is base odn the HashiCorp tutorial used to create AWS EKS cluster, that we co
     - cluster_agent.auto.tfvars
     - secrets.auto.tfvars
 
-#### 1 Provision AWS EKS Cluster
+### Provision resources
 
-Create AWS environment variables, by following the [tutorial](https://learn.hashicorp.com/tutorials/terraform/eks).
+Project consist of two modules:
+- `aws_eks` [`./modules/aws-eks`]: provisioning AWS Elastic Kubernetes Service (EKS) cluster and outputting cluster connection details
+- `cluster_agent` [`./modules/cluster-agent`]: deploying AppDynamics Cluster agent to the cluster
 
-[Provision an EKS Cluster learn guide](https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster) contains
-Terraform configuration files to provision an EKS cluster on AWS.
+> Modules can be used together or independently, and in the case of the latter, cluster connection details can be provided as `.tfvars` file and only `cluster-agent` module targeted for applying.
 
-> Note: It takes about 15-20 min for resources to be deployed to AWS
-
-### 2 Apply scripts to configure kubectl and deploy Cluster agent helm charts
-Refer to the `/scripts` folder.
-
-#### 2.1 Configure kubectl to connect to EKS cluster
-file: `1-configure-kubectl.sh`
-
-#### 2.2 Apply a metric server
-file: `2-metric-server.sh`
-
-#### 2.3 Deploy example applications
-Java and Dotnet applications, file: `3-example-applications.sh`
-
-### 3 Deploy Cluster agent
-Apply Terraform files from `cluster-agent` folder.
-
-### 4 Do not forget to clean-up the AWS resources
-
+To create all of the resources run terraform plan and apply:
 ```
-tf destroy
+terraform apply
 ```
 
-### Additional links - Zendesk
-terraform / helm > manual
+> Note: It takes about 10-15 min for resources to be deployed
+
+#### Cluster Agent Updates
+
+When updating Helm values, not to re-create the whole cluster, only a `cluster_agent` module's resource can be targeted for Terraform commands:
+
+```
+terraform destroy -target=module.cluster_agent.helm_release.appdynamics_cluster_agent
+```
+
+#### Connect to the Cluster
+
+Connecting kubectl to  the newly created cluster, so created pods and other resources can be accessed and managed:
+
+```
+aws eks --region $(terraform output -raw cluster_region) update-kubeconfig --name $(terraform output -raw cluster_name)
+```
+
+#### Metric Server
+
+To access cluster's hardware metrics, deploy metrics server to the cluster:
+
+```
+wget -O v0.3.6.tar.gz https://codeload.github.com/kubernetes-sigs/metrics-server/tar.gz/v0.3.6 && tar -xzf v0.3.6.tar.gz
+kubectl apply -f metrics-server-0.3.6/deploy/1.8+/
+kubectl get deployment metrics-server -n kube-system
+```
+
+> Note: Can be configured as part of the Helm template
+
+#### Example Applications
+
+Directory `./application-examples` contains example deployments to test auto-instrumentation. 
+Refer to the `build-app.sh` and `clean-app.sh`
+
+### Troubleshooting
+
+Set environment variables in order to get more details when troubleshooting:
+```
+export TF_LOG=debug
+export HELM_DEBUG=1
+```
+
+Check if cluster agent pods are running, and access cluster agent logs:
+```
+kubectl get po -n appdynamics
+kubectl logs <cluster-agent-pod> -n appdynamics -f
+```
+
+###  Destroying Resources
+
+Do not forget to clean-up the AWS resources when you are done:
+```
+terraform destroy -auto-approve
+```
+
+#### Additional links - Zendesk
 https://appdynamics.zendesk.com/agent/tickets/252463
 https://appdynamics.zendesk.com/agent/tickets/273864
 
-
-### HashiCorp tutorial: Learn Terrafom Provision EKS Cluster
-
-Latest version can be cloned from: https://github.com/hashicorp/learn-terraform-provision-eks-cluster
