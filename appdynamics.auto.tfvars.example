@@ -1,0 +1,6 @@
+
+# These variables are fairly constant per controller 
+APPDYNAMICS_AGENT_ACCOUNT_NAME           = "customer1"
+APPDYNAMICS_CONTROLLER_URL               = "http://saas.appd.com:8090"
+APPDYNAMICS_CONTROLLER_PORT              = "8090"
+APPDYNAMICS_CONTROLLER_SSL_ENABLED       = false

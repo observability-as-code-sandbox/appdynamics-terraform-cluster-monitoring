@@ -11,10 +11,11 @@ It is based on the HashiCorp [provision an EKS Cluster learn guide](https://lear
 
 1) Configure [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) to connect to your cloud environment. Recommended is to use [named profiles](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) when authenticating against AWS.
 
-2) Set Terraform variables
-    - appdynamics.auto.tfvars
-    - cluster_agent.auto.tfvars
-    - secrets.auto.tfvars
+2) Set Terraform variables by copying the variable files, removing concatenated ".example", and replacing variable values with true values: 
+    - appdynamics.auto.tfvars.example
+    - cluster_agent.auto.tfvars.example
+    - secrets.auto.tfvars.example
+    Newly created files should not be pushed to version control.
 
 
 ### Provision resources
