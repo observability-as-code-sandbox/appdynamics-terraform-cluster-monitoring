@@ -1,0 +1,5 @@
+customNamespace           = "appdynamics" # appd namespace
+createServiceAccount      = true
+imageInfo_imagePullPolicy = "Always"
+imageInfo_agentTag        = "21.3.1"
+imageInfo_operatorTag     = "0.6.8"
