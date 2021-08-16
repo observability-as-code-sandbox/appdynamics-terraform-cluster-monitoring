@@ -15,14 +15,15 @@ It is based on the HashiCorp [provision an EKS Cluster learn guide](https://lear
     - appdynamics.auto.tfvars.example
     - cluster_agent.auto.tfvars.example
     - secrets.auto.tfvars.example
+    
     Newly created files should not be pushed to version control.
 
 
 ### Provision resources
 
 Project consist of two modules:
-- `aws_eks` [`./modules/aws-eks`]: provisioning AWS Elastic Kubernetes Service (EKS) cluster and outputting cluster connection details
-- `cluster_agent` [`./modules/cluster-agent`]: deploying AppDynamics Cluster agent to the cluster
+- `aws_eks` [<i>./modules/aws-eks</i>]: provisioning AWS Elastic Kubernetes Service (EKS) cluster and outputting cluster connection details
+- `cluster_agent` [<i>./modules/cluster-agent</i>]: deploying AppDynamics Cluster agent to the cluster
 
 > Modules can be used together or independently, and in the case of the latter, cluster connection details can be provided as `.tfvars` file and only `cluster-agent` module targeted for applying.
 
