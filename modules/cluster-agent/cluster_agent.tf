@@ -44,41 +44,47 @@ resource "helm_release" "appdynamics_cluster_agent" {
     name = "controllerInfo.accessKey"
     value = var.APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY 
   }
+  
 
-  set {
-    name = "createServiceAccount"
-    value = var.createServiceAccount
+ set {
+    name = "install.metrics-server"
+    value = var.INSTALL_METRICS_SERVER 
   }
 
-  set {
-    name = "imageInfo.agentImage"
-    value = var.imageInfo_agentImage
-  }
+  # set {
+  #   name = "createServiceAccount"
+  #   value = var.createServiceAccount
+  # }
 
-  set {
-    name = "imageInfo.agentTag"
-    value = var.imageInfo_agentTag
-  }
+  # set {
+  #   name = "imageInfo.agentImage"
+  #   value = var.imageInfo_agentImage
+  # }
 
-  set {
-    name = "imageInfo.operatorImage"
-    value = var.imageInfo_operatorImage
-  }
+  # set {
+  #   name = "imageInfo.agentTag"
+  #   value = var.imageInfo_agentTag
+  # }
 
-  set {
-    name = "imageInfo.operatorTag"
-    value = var.imageInfo_operatorTag
-  }
+  # set {
+  #   name = "imageInfo.operatorImage"
+  #   value = var.imageInfo_operatorImage
+  # }
 
-  set {
-    name = "imageInfo.imagePullPolicy"
-    value = var.imageInfo_imagePullPolicy
-  }
+  # set {
+  #   name = "imageInfo.operatorTag"
+  #   value = var.imageInfo_operatorTag
+  # }
 
-  set {
-    name = "instrumentationConfig.enabled"
-    value = var.instrumentationConfig_enabled
-  }
+  # set {
+  #   name = "imageInfo.imagePullPolicy"
+  #   value = var.imageInfo_imagePullPolicy
+  # }
+
+  # set {
+  #   name = "instrumentationConfig.enabled"
+  #   value = var.instrumentationConfig_enabled
+  # }
 
   # set {
   #   name = "deploymentMode"

@@ -1,6 +1,6 @@
 variable "region" {
   description = "AWS region"
-  default     = "eu-west-2"
+  default     = "us-east-2"
 }
 
 variable "profile" {

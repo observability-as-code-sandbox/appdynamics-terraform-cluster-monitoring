@@ -10,7 +10,7 @@ variable "customNamespace" {
 
 variable "helmReleaseVersion" {
   type = string
-  default = "0.1.14"
+  default = "0.1.17"
 }
 
 variable "createServiceAccount" {
@@ -51,4 +51,10 @@ variable "instrumentationConfig_enabled" {
 variable "deploymentMode" {
   type    = string
   default = "MASTER"
+}
+
+variable "INSTALL_METRICS_SERVER" {
+  type    = bool
+  description = "install meteric server"
+  default = true
 }

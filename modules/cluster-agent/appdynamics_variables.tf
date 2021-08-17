@@ -29,13 +29,3 @@ variable "APPDYNAMICS_AGENT_ACCOUNT_ACCESS_KEY" { # sensitive value
   sensitive = true # valid in TF >= 0.14
 }
 
-variable "APPDYNAMICS_CONTROLLER_PORT" {
-  type    = string
-  default = "443"
-}
-
-variable "APPDYNAMICS_CONTROLLER_SSL_ENABLED" {
-  type    = bool
-  default = true
-}
-
