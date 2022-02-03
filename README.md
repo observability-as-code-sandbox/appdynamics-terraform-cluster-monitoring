@@ -23,6 +23,7 @@ It is based on the HashiCorp [provision an EKS Cluster learn guide](https://lear
 
 Project consist of two modules:
 - `aws_eks` [<i>./modules/aws-eks</i>]: provisioning AWS Elastic Kubernetes Service (EKS) cluster and outputting cluster connection details
+- `gcp_gke` [<i>./modules/gcp-gke</i>]: provisioning GCloud (GKE) using gcloud init connection details
 - `cluster_agent` [<i>./modules/cluster-agent</i>]: deploying AppDynamics Cluster agent to the cluster
 
 > Modules can be used together or independently, and in the case of the latter, cluster connection details can be provided as `.tfvars` file and only `cluster-agent` module targeted for applying.
@@ -32,11 +33,19 @@ Initiate terraform directory:
 terraform init
 ```
 
-Create all of the resources run terraform plan and apply:
+To create AWS cluster resources run terraform plan and apply:
 ```
-terraform plan
-terraform apply
+terraform plan -target=module.aws_eks 
+terraform apply -target=module.aws_eks 
 ```
+
+To create GCP cluster resources run terraform plan and apply:
+```
+terraform plan -target=module.gcp_gke 
+terraform apply -target=module.gcp_gke 
+```
+
+When cluster is created (either of the two) 
 
 > Note: It takes about 10-15 min for resources to be deployed
 

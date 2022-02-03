@@ -3,6 +3,8 @@
 # Create namespace
 kubectl create namespace test
 
+kubectl create sa appd-account -n test
+
 # Deploy the applications
 kubectl -n test apply -f dotnet-deployment.yml
 kubectl -n test apply -f java-deployment.yml

@@ -1,21 +1,18 @@
+data "google_client_config" "current" {}
 
 provider "helm" {
-  alias = "demo_cluster"
+  alias = "gke_cluster"
   kubernetes {
-    host                   = var.cluster_endpoint
-    cluster_ca_certificate = base64decode(var.cluster_certificate)
-    exec {
-      api_version = "client.authentication.k8s.io/v1alpha1"
-      args        = ["--region", var.cluster_region, "eks", "get-token", "--cluster-name", var.cluster_name]
-      command     = "aws"
-    }
+    host                   = ""
+    cluster_ca_certificate = base64decode("")
+    token                  = "${data.google_client_config.current.access_token}"
   }
 }
 
 resource "helm_release" "appdynamics_cluster_agent" {
   
-  provider          = helm.demo_cluster
-  name              = "appd-cluster-agent"
+  provider          = helm.gke_cluster
+  name              = "gke-cluster-agent"
   repository        = "https://ciscodevnet.github.io/appdynamics-charts"
   chart             = "cluster-agent"
   namespace         = var.customNamespace
