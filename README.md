@@ -46,7 +46,7 @@ terraform apply
 When updating Helm values, not to re-create the whole cluster, only a `cluster_agent` module's resource can be targeted for Terraform commands:
 
 ```
-terraform destroy -target=module.cluster_agent.helm_release.appdynamics_cluster_agent
+terraform apply -target=module.cluster_agent.helm_release.appdynamics_cluster_agent
 ```
 
 
